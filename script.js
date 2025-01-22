@@ -18,6 +18,7 @@ function filterTasks(filterValue){
             case "complete":
                 if (task.classList.contains('checked')){
                     task.style.display = "flex";
+                    
                 }else{
                     task.style.display = "none";
                 }
@@ -30,6 +31,7 @@ function filterTasks(filterValue){
                 task.style.display = "flex";
                 break;
         }
+        document.querySelector(".dropdown-content").style.display = "none";
     });
 }
 
@@ -45,20 +47,23 @@ function AddTask(){
         warningIcon.style.display = "inline"; // Hide warning icon
         return;
     }
-    else{
-        let li = document.createElement("li");
-        li.innerHTML = taskText;
-        listContainer.appendChild(li);
 
-        let span = document.createElement("span");
-        span.innerText = "\u00d7";
-        li.appendChild(span);
-    }
+    let li = document.createElement("li");
+    li.innerHTML = `${taskText} <i class="fas fa-edit edit-icon" onclick="editTask(this)"></i>`;
+    listContainer.appendChild(li);
+
+    let span = document.createElement("span");
+    span.classList.add('fa-solid', 'fa-trash'); // delete character
+    li.appendChild(span);
+
     inputBox.value = ""; // Reset input box
     inputBox.classList.remove('warning');  // Remove warning class after reset
-    warningIcon.style.display = "none"; // Hide warning icon
     document.querySelector(".row").style.backgroundColor = ""; // Remove red background
+    // warningIcon.style.display = "none"; // Hide warning icon
+
+
     saveData();
+    updateProgressBar();
 }
 
 // Input box event to reset warning on user input - every time the user TYPES
@@ -68,23 +73,67 @@ inputBox.addEventListener('input', function(){
     document.querySelector(".row").style.backgroundColor = ""; // Remove red background
 });
 
+// Check and Remove action
 listContainer.addEventListener("click", function(e){
     if(e.target.tagName === "LI"){
         e.target.classList.toggle("checked");
         saveData();
+        updateProgressBar();
     }
-
     else if (e.target.tagName === "SPAN"){
         e.target.parentElement.remove();
         saveData();
+        updateProgressBar();
     }
 }, false);
 
 function saveData(){
-    localStorage.setItem("data", listContainer.innerHTML);
+    if (typeof(Storage) !== "undefined") {
+        localStorage.setItem("data", listContainer.innerHTML);
+    } else {
+        console.error("LocalStorage is not supported.");
+    }
 }
 function showData(){
     listContainer.innerHTML = localStorage.getItem("data");
+
+    updateProgressBar();
+}
+
+function editTask(icon){
+    const listItem = icon.parentElement;
+    const currentText = listItem.childNodes[0].nodeValue.trim();
+    const newText = prompt("Edit: ",currentText);
+
+    if(newText !== null && newText !== ""){
+        listItem.childNodes[0].nodeValue = newText + "";
+    }
+}
+
+const progressBar = document.getElementById("progress");
+const progressNumber = document.getElementById("numbers");
+
+function updateProgressBar(){
+    const tasks = listContainer.querySelectorAll("li");
+    const completedTasks = listContainer.querySelectorAll("li.checked");
+
+    const progressPercent = tasks.length > 0 ? (completedTasks.length / tasks.length) * 100 : 0;
+
+    progressBar.style.width = `${progressPercent}%`;
+
+    progressNumber.textContent = `${completedTasks.length} / ${tasks.length}`;
 }
 
 showData();
+
+
+    // span.addEventListener('click', function(){
+    //     li.remove();
+    //     saveData();
+    //     updateProgressBar();
+    // });
+    // li.addEventListener('click',function(){
+    //     li.classList.toggle("checked");
+    //     saveData();
+    //     updateProgressBar();
+    // });
