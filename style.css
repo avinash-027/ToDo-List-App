@@ -1,0 +1,220 @@
+:root{
+    --background: #0D1224;
+    --primary: #181E33;
+    --secondary: #26FFE3;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+.container{
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+    /* background: linear-gradient(135deg, #0d1225,#4e085f); */
+    padding: 10px;
+    
+    position: relative;
+}
+/* .hover1:hover{box-shadow: 2px 2px 2px rgba(83, 82, 82, 0.2);}
+.hover:hover{ box-shadow: 2px 2px  2px rgba(206, 204, 204, 0.5);} */
+
+.arrow{ 
+    position: absolute; 
+    bottom: 0px;
+    left: 0px;}
+.footer {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+
+    font-size: 14px;
+    color: #000000;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+}
+.footer a{
+    text-decoration: none;
+    display: block;
+}
+.todo-list-head{
+    width: 100%;
+    max-width: 540px;
+    background: var(--primary);
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 20px;   
+}
+.head{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.todo-list-head h2{
+    color: var(--secondary);
+    margin-bottom: 20px;
+}
+.todo-list-head i{
+    width: 25px;
+    margin-left: 10px;
+}
+
+.row{
+    display: flex; /*use flex box horizontaol layout*/
+    align-items: center; /*Vertically center items*/ 
+    justify-content: center;
+
+    background: var(--background);
+    border-radius: 30px;
+    padding-left: 20px;
+    margin-top: 3px;
+}
+
+.warning::placeholder{
+    color: rgba(245, 97, 97, 0.7);
+}
+
+.warning-icon {
+    color: rgba(255, 0, 0, 0.7);
+    font-size: 20px;
+    margin-left: 10px;
+    display: none; /* Initially hidden */
+}
+
+input{
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-weight: 15px;
+    color: whitesmoke;
+
+    padding: 10px 4px;
+    width: 100%;
+}
+.addButton{
+    width: auto;
+    border: none;
+    outline: none;
+    
+    background-color: var(--secondary);
+    color: var(--primary);
+
+    font-size: 15px;
+    padding: 12px 30px;
+    border-radius: 40px 0px 0px 40px; 
+    cursor: pointer;
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-btn{
+    background-color: var(--primary);
+    color: var(--secondary);
+
+    font-size: 15px;
+    padding: 11px ;     
+    border-radius: 0px 40px 40px 0px;
+    cursor: pointer;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--primary);
+    max-width: 140px;
+    z-index: 1;
+    border-radius: 20px;
+    top: 2px;
+    left: 2.5cm;
+    font-size: 15px;
+    text-align: center;
+}
+.dropdown-btn:hover + .dropdown-content{
+    display: block;
+}
+/* Ensure dropdown content stays visible when hovering over it */
+.custom-dropdown .dropdown-content:hover {
+    display: block; 
+}
+
+.filter-option{
+    width: auto;
+    color: whitesmoke;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    border-radius: 30px;
+    
+    display: flex;
+    justify-content: first baseline;
+    align-items: center;
+}
+.filter-option:hover{
+    color: var(--primary);
+    background-color: var(--secondary);
+}
+
+ul{
+    margin: auto;
+}
+ul li{
+    list-style: none;
+    font-size: 15px;
+    margin: 10px 0;
+    padding: 15px 8px 12px 50px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+    color:aliceblue;
+    
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Center items vertically */
+}
+ul li::before{
+    content: '\f111'; /* Font Awesome "circle" icon */
+    font-family: "Font Awesome 6 Free"; 
+    font-weight: 900; /* Ensure the icon is visible */
+    font-size: 21px;
+    color: var(--secondary);
+    position: absolute;
+    top: 15px;
+    left: 16px;
+}
+ul li.checked{
+    color: var(--secondary) ;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+ul li.checked::before {
+    content: '\f058'; /* Font Awesome "check-circle" icon */
+    font-family: "Font Awesome 6 Free"; 
+    font-weight: 900; /* Ensure the icon is visible */
+    font-size: 21px;
+    color: var(--secondary);
+    opacity: 0.4;
+    position: absolute;
+    top: 15px;
+    left: 16px;
+}
+
+ul li span{
+    padding: 10px;
+    border-radius: 80%;
+    text-align: center;
+    cursor: pointer;
+    color: var(--secondary);
+    font-size:21px;
+
+    transition:  200ms ease;
+
+    position:absolute;
+    right: 10px;
+}
+ul li span:hover{
+    color: red;
+}
