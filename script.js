@@ -13,6 +13,11 @@ filterOptions.forEach(option => {
 function filterTasks(filterValue){
     const tasks =listContainer.querySelectorAll("li")
 
+    // simplify the filterTasks function by using a single line 
+    // task.style.display = (filterValue === "all" || 
+    //     (filterValue === "complete" && task.classList.contains('checked')) || 
+    //     (filterValue === "incomplete" && !task.classList.contains('checked'))) ? "flex" : "none";
+    
     tasks.forEach(task => {
         switch(filterValue) {
             case "complete":
@@ -31,7 +36,6 @@ function filterTasks(filterValue){
                 task.style.display = "flex";
                 break;
         }
-        document.querySelector(".dropdown-content").style.display = "none";
     });
 }
 
@@ -44,12 +48,12 @@ function AddTask(){
         inputBox.placeholder = "Please enter a task..!" // add input box
         inputBox.classList.add('warning'); // Add warning class
         document.querySelector(".row").style.backgroundColor = "rgba(94, 22, 22, 0.7)"; // Red background to indicate an error
-        warningIcon.style.display = "inline"; // Hide warning icon
+        warningIcon.style.display = "inline"; // warning icon
         return;
     }
 
     let li = document.createElement("li");
-    li.innerHTML = `${taskText} <i class="fas fa-edit edit-icon" onclick="editTask(this)"></i>`;
+    li.innerHTML = `${taskText} <i class="fas fa-edit edit-icon" onclick="editTask1(this)"></i>`;
     listContainer.appendChild(li);
 
     let span = document.createElement("span");
@@ -60,7 +64,6 @@ function AddTask(){
     inputBox.classList.remove('warning');  // Remove warning class after reset
     document.querySelector(".row").style.backgroundColor = ""; // Remove red background
     // warningIcon.style.display = "none"; // Hide warning icon
-
 
     saveData();
     updateProgressBar();
@@ -95,20 +98,71 @@ function saveData(){
     }
 }
 function showData(){
-    listContainer.innerHTML = localStorage.getItem("data");
+    const data = localStorage.getItem("data");
+    if(data){
+        listContainer.innerHTML = data;
+    }
 
     updateProgressBar();
 }
 
-function editTask(icon){
-    const listItem = icon.parentElement;
-    const currentText = listItem.childNodes[0].nodeValue.trim();
-    const newText = prompt("Edit: ",currentText);
+// Syntax :- parent.replaceChild(newChild, oldChild);
 
-    if(newText !== null && newText !== ""){
-        listItem.childNodes[0].nodeValue = newText + "";
-    }
-}
+function editTask(icon) {
+    // Target the List Item to Edit
+    const listitem = icon.parentElement;
+    const currentText = listitem.childNodes[0].nodeValue.trim();
+    const currentTextNode = listitem.childNodes[0]; // Store the original text node
+
+    // Create Input Field for Editing
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = currentText;
+    input.className = "edit-input";
+
+    // Replace the Task Text with the Input Field
+    listitem.replaceChild(input, currentTextNode);
+
+    input.focus();
+
+    // Handle Saving Edits on "Enter" Key Press
+    input.addEventListener("keypress", function(e){
+        if(e.key === "Enter"){
+            const newText = input.value.trim();
+            if (newText !== ""){
+                // Replace input with new text
+                // console.log("Editing task:", currentText);
+                listitem.replaceChild(document.createTextNode(newText), input);
+
+                saveData();
+                updateProgressBar();
+            }else{
+                // If the input is empty, remove the task
+                listitem.remove();
+
+                saveData();
+                updateProgressBar();
+            }
+        }
+    });
+
+    // Handle Losing Focus on the Input Field (Blur Event)
+    input.addEventListener("blur",function(){
+        const newText = input.value.trim();
+        if(newText !== ""){
+            listitem.replaceChild(document.createTextNode(newText), input);
+
+            saveData();
+            updateProgressBar();
+        }else{
+            listitem.remove();
+
+            saveData();
+            updateProgressBar();
+        }
+    })
+
+} 
 
 const progressBar = document.getElementById("progress");
 const progressNumber = document.getElementById("numbers");
@@ -126,14 +180,27 @@ function updateProgressBar(){
 
 showData();
 
+// can also use 
 
-    // span.addEventListener('click', function(){
-    //     li.remove();
-    //     saveData();
-    //     updateProgressBar();
-    // });
-    // li.addEventListener('click',function(){
-    //     li.classList.toggle("checked");
-    //     saveData();
-    //     updateProgressBar();
-    // });
+// span.addEventListener('click', function(){
+//     li.remove();
+//     saveData();
+//     updateProgressBar();
+// });
+// li.addEventListener('click',function(){
+//     li.classList.toggle("checked");
+//     saveData();
+//     updateProgressBar();
+// });
+
+// const dropdownBtn = document.querySelector(".dropdown-btn");
+// const dropdownContent = document.querySelector(".dropdown-content");
+// dropdownBtn.addEventListener("click",function(){
+//     dropdownContent.style.display = (dropdownContent.style.display === "block") ? "block" :"none";
+// });
+
+    
+// const editIcon = li.querySelector('.edit-icon');
+// editIcon.addEventListener('click', function() {
+//     editTask(editIcon);
+// });

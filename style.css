@@ -27,6 +27,7 @@
     position: absolute; 
     bottom: 0px;
     left: 0px;
+    background-color: transparent;
 }
 
 .footer {
@@ -50,6 +51,7 @@
     flex-direction: row;
     justify-content: space-between;
 
+    margin: 0;
     padding: 20px;
     border-radius: 22px;
     background-color: var(--background);
@@ -61,13 +63,14 @@
     width: 100%;
     height: 10px;
     background-color: var(--secondary);
+    opacity: 0.7;
     border-radius: 5px;
 }
 
 #progress{
     height: 100%;
     background-color: var(--primary);
-    opacity: 0.4;
+    opacity: 0.7;
     border-radius: 5px;
     width: 0%;
     transition:  200ms ease;
@@ -78,6 +81,7 @@
     width: 90px;
     height: 90px;
     background-color: var(--secondary);
+    opacity: 0.99;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -104,7 +108,7 @@
 
 .todo-list-head p{
     color: var(--secondary);
-    margin-top: 10px;
+    margin-top: 3px;
 }
 .todo-list-head i{
     width: 25px;
@@ -125,12 +129,14 @@
     align-items: center; /*Vertically center items*/ 
     justify-content: center;
     text-align: center;
+    box-sizing:border-box;
 
     background: var(--background);
     border-radius: 25px;
     padding-left: 20px;
     margin-top: 25px;
     box-shadow: 1px 1px 1px  black;
+    height: auto;
 }
 
 .warning::placeholder{
@@ -144,7 +150,18 @@
     display: none; /* Initially hidden */
 }
 
-input{
+.edit-input{
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 15px;
+    color: white;
+    width: 100%;
+
+    white-space: inherit;
+    padding-right: 15%;
+}
+.input-container{
     flex: 1;
     border: none;
     outline: none;
@@ -233,12 +250,21 @@ ul li{
     list-style: none;
     font-size: 15px;
     margin: 5px 0;
-    padding: 16px 8px 12px 55px;
+    padding: 15px 8px 12px 55px;
     user-select: none;
     cursor: pointer;
     position: relative;
-    color:aliceblue;
+    color:rgb(205, 213, 220);
 
+    text-overflow: ellipsis;   /* Truncate the text */
+    overflow: hidden;          /* Hide overflowed content */
+    /* white-space: nowrap;        */
+    /* Prevent the text from wrapping to the next line */
+    white-space: normal; 
+    /* Allow text to wrap within the list item  - default*/
+
+    padding-right: 15%; /* Add extra space for the buttons on the right */
+ 
     display: flex; /* Use flexbox for horizontal alignment */
     align-items: center; /* Center items vertically */
     justify-content: space-between;
