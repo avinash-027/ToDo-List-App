@@ -25,3 +25,5 @@ This is a simple and interactive To-Do List app built using HTML, CSS, and JavaS
     cd todo-list-app
     ```
 3. Open index.html in your browser to view and interact with the To-Do List app.
+
+![Output](screenshot.png)
